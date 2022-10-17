@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /*
@@ -124,7 +125,8 @@ class Maze {
 		while (!path.isEmpty()) {
 			current = path.remove();
 			if (current.equals(finish)) {
-				return current;
+				path.add(current);
+				return new ArrayList<Square>();
 			} else {
 				ArrayList<Square> neighbors = new ArrayList<Square>();
 
