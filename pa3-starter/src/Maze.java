@@ -20,18 +20,14 @@ class Maze {
 	}
 
 	/**
-	 * Initializes Squares in a contents array such that the start and target
-	 * fields hold references to the corresponding locations in the contents
-	 * array.
+	 * Initializes Squares in a contents array such that the start and target fields
+	 * hold references to the corresponding locations in the contents array.
 	 *
 	 * @param mazeSpec expected to have all strings with the same length, and to
 	 *                 have length at least 1 The strings should contain only the
-	 *                 following characters:
-	 *                 - '_': means "empty space"
-	 *                 - '#': means "wall"
-	 *                 - 'F': means "finish", can only appear once across all
-	 *                 strings
-	 *                 - 'S': means "start", can only appear once across all
+	 *                 following characters: - '_': means "empty space" - '#': means
+	 *                 "wall" - 'F': means "finish", can only appear once across all
+	 *                 strings - 'S': means "start", can only appear once across all
 	 *                 strings
 	 */
 	public Maze(String[] mazeSpec) {
@@ -42,20 +38,20 @@ class Maze {
 		for (int i = 0; i < rows; i += 1) {
 			for (int j = 0; j < cols; j += 1) {
 				switch (mazeSpec[i].charAt(j)) {
-					case '_':
-						contents[i][j] = new Square(i, j, false);
-						break;
-					case '#':
-						contents[i][j] = new Square(i, j, true);
-						break;
-					case 'S':
-						contents[i][j] = new Square(i, j, false);
-						start = contents[i][j];
-						break;
-					case 'F':
-						contents[i][j] = new Square(i, j, false);
-						finish = contents[i][j];
-						break;
+				case '_':
+					contents[i][j] = new Square(i, j, false);
+					break;
+				case '#':
+					contents[i][j] = new Square(i, j, true);
+					break;
+				case 'S':
+					contents[i][j] = new Square(i, j, false);
+					start = contents[i][j];
+					break;
+				case 'F':
+					contents[i][j] = new Square(i, j, false);
+					finish = contents[i][j];
+					break;
 				}
 
 			}
@@ -68,8 +64,8 @@ class Maze {
 	}
 
 	/**
-	 * Produce a grid with # for walls and _ for empty spaces, nothing else (e.g.
-	 * no start and finish)
+	 * Produce a grid with # for walls and _ for empty spaces, nothing else (e.g. no
+	 * start and finish)
 	 */
 	private char[][] buildBackground() {
 		char[][] pieces = new char[this.rows][this.cols];
@@ -121,6 +117,57 @@ class Maze {
 	 */
 	public ArrayList<Square> storePath() {
 		/* Complete this method */
+		SearchWorklist path = new StackWorklist();
+		path.add(start);
+		start.visit();
+		Square current;
+		while (!path.isEmpty()) {
+			current = path.remove();
+			if (current.equals(finish)) {
+				return current;
+			} else {
+				ArrayList<Square> neighbors = new ArrayList<Square>();
+
+			}
+
+		}
+
 		return null;
 	}
+
+	public ArrayList<Square> getNeighbors(Square s) {
+		ArrayList<Square> neighbors = new ArrayList<Square>();
+		Square temp;
+		// check up
+		if (s.getRow() != 0) {
+			temp = contents[s.getRow() - 1][s.getCol()];
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+
+		// check down
+		if (s.getRow() != contents.length - 1) {
+			temp = contents[s.getRow() + 1][s.getCol()];
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+		// check left
+		if (s.getCol() != 0) {
+			temp = contents[s.getRow()][s.getCol() - 1];
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+		// check right
+		if (s.getCol() != contents[0].length) {
+			temp = contents[s.getRow()][s.getCol() + 1];
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+
+	}
+
 }
