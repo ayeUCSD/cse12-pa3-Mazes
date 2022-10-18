@@ -96,6 +96,28 @@ public class TestSolvers {
 		System.out.println("End Test StackVsQueue\n\n");
 	}
 	
+	
+	@Test
+	public void testOrder() {
+
+		System.out.println("Start Test StackVsQueue\n\n");
+		Maze m = new Maze(new String[] {
+				"#___",
+				"__F_",
+				"__S_",
+				"____"} ) ;
+		
+		
+		Square[] solution = {m.contents[1][2], m.contents[3][2], m.contents[2][3], m.contents[2][1]} ;
+		ArrayList<Square> neighbors = MazeSolver.getNeighbors(m, m.start);
+		
+		
+		assertArrayEquals(solution, neighbors.toArray());
+		
+	}
+	
+	
+	
 }
 
 
