@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 
+import org.junit.Test;
+
 /*
  * Write your JUnit tests here
  * Use the formatMaze() method to get nicer JUnit output
  */
 
-import org.junit.Test;
+import static org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestSolvers {
