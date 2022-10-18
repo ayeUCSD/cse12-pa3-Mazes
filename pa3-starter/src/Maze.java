@@ -122,13 +122,25 @@ class Maze {
 		path.add(start);
 		start.visit();
 		Square current;
+		
 		while (!path.isEmpty()) {
 			current = path.remove();
 			if (current.equals(finish)) {
-				path.add(current);
-				return new ArrayList<Square>();
+				ArrayList<Square> output = new ArrayList<Square>();
+				while(current.getPrevious() != null) {
+					output.add(current);
+					current = current.getPrevious();
+				}
+				return output;
+				
 			} else {
 				ArrayList<Square> neighbors = new ArrayList<Square>();
+				for (Square s : neighbors) {
+					s.visit();
+					s.setPrevious(current);
+					path.add(s);
+
+				}
 
 			}
 
@@ -155,16 +167,16 @@ class Maze {
 				neighbors.add(temp);
 			}
 		}
-		// check left
-		if (s.getCol() != 0) {
-			temp = contents[s.getRow()][s.getCol() - 1];
+		// check right
+		if (s.getCol() != contents[0].length) {
+			temp = contents[s.getRow()][s.getCol() + 1];
 			if (!temp.isVisited() && !temp.getIsWall()) {
 				neighbors.add(temp);
 			}
 		}
-		// check right
-		if (s.getCol() != contents[0].length) {
-			temp = contents[s.getRow()][s.getCol() + 1];
+		// check left
+		if (s.getCol() != 0) {
+			temp = contents[s.getRow()][s.getCol() - 1];
 			if (!temp.isVisited() && !temp.getIsWall()) {
 				neighbors.add(temp);
 			}
