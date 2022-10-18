@@ -118,70 +118,15 @@ class Maze {
 	 */
 	public ArrayList<Square> storePath() {
 		/* Complete this method */
-		SearchWorklist path = new StackWorklist();
-		path.add(start);
-		start.visit();
-		Square current;
-		
-		while (!path.isEmpty()) {
-			current = path.remove();
-			if (current.equals(finish)) {
-				ArrayList<Square> output = new ArrayList<Square>();
-				while(current.getPrevious() != null) {
-					output.add(current);
-					current = current.getPrevious();
-				}
-				return output;
-				
-			} else {
-				ArrayList<Square> neighbors = new ArrayList<Square>();
-				for (Square s : neighbors) {
-					s.visit();
-					s.setPrevious(current);
-					path.add(s);
-
-				}
-
-			}
-
+		Square end = finish;
+		ArrayList<Square> output = new ArrayList<Square>();
+		while(end.getPrevious() != null) {
+			output.add(0, end);
+			end = end.getPrevious();
 		}
-
-		return null;
+		return output;
 	}
 
-	public ArrayList<Square> getNeighbors(Square s) {
-		ArrayList<Square> neighbors = new ArrayList<Square>();
-		Square temp;
-		// check up
-		if (s.getRow() != 0) {
-			temp = contents[s.getRow() - 1][s.getCol()];
-			if (!temp.isVisited() && !temp.getIsWall()) {
-				neighbors.add(temp);
-			}
-		}
-
-		// check down
-		if (s.getRow() != contents.length - 1) {
-			temp = contents[s.getRow() + 1][s.getCol()];
-			if (!temp.isVisited() && !temp.getIsWall()) {
-				neighbors.add(temp);
-			}
-		}
-		// check right
-		if (s.getCol() != contents[0].length) {
-			temp = contents[s.getRow()][s.getCol() + 1];
-			if (!temp.isVisited() && !temp.getIsWall()) {
-				neighbors.add(temp);
-			}
-		}
-		// check left
-		if (s.getCol() != 0) {
-			temp = contents[s.getRow()][s.getCol() - 1];
-			if (!temp.isVisited() && !temp.getIsWall()) {
-				neighbors.add(temp);
-			}
-		}
-
-	}
+	
 
 }
