@@ -51,18 +51,34 @@ public class TestSolvers {
 	@Test
 	public void testStackVsQueue() {
 		System.out.println("Start Test StackVsQueue\n\n");
-		Maze m = new Maze(new String[] { "#___", "__F_", "S##_", "____" });
+		Maze m = new Maze(new String[] { 
+			"#___",
+			"__F_", 
+			"S##_", 
+			"____" });
 
-		String[] solution = { "#___", "__F*", "S##*", "****" };
+		String[] solution = { 
+			 "#___",
+			 "__F*",
+			 "S##*",
+			 "****" };
 		SearchWorklist wl = new StackWorklist();
 
 		checkMaze(wl, m, solution);
 
 		wl = new QueueWorklist();
 
-		String[] solution2 = { "#___", "**F_", "S##_", "____" };
+		String[] solution2 = { 
+		"#___", 
+		"**F_", 
+		"S##_", 
+		"____" };
 
-		Maze m2 = new Maze(new String[] { "#___", "__F_", "S##_", "____" });
+		Maze m2 = new Maze(new String[] { 
+		"#___", 
+		"__F_", 
+		"S##_", 
+		"____" });
 		checkMaze(wl, m2, solution2);
 
 		System.out.println("End Test StackVsQueue\n\n");
@@ -70,18 +86,63 @@ public class TestSolvers {
 	@Test
 	public void testOrder() {
 
-		System.out.println("Start Test StackVsQueue\n\n");
+		
+
+
+		System.out.println("Start Test inOrder\n\n");
 		Maze m = new Maze(new String[] { 
 				"####",
 				"__F_",
 				"__S_", 
 				"____" });
-
+		Maze m2 = new Maze(new String[] { 
+				"####",
+				"__F_",
+				"__S_", 
+				"____" });
 		Square[] solution = { m.contents[1][2], m.contents[3][2], m.contents[2][3], m.contents[2][1] };
-		ArrayList<Square> neighbors = MazeSolver.getNeighbors(m, m.start);
+		ArrayList<Square> neighbors = getNeighbors(m, m.start);
 
 		assertArrayEquals(solution, neighbors.toArray());
 
+	}
+
+	public ArrayList<Square> getNeighbors(Maze maze, Square s) {
+		System.out.println("neighbors for " + s.toString());
+		ArrayList<Square> neighbors = new ArrayList<Square>();
+		Square temp;
+		// check up
+		if (s.getRow() != 0) {
+			temp = maze.contents[s.getRow() - 1][s.getCol()];
+			
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+
+		// check down
+		if (s.getRow() != maze.contents.length - 1) {
+			temp = maze.contents[s.getRow() + 1][s.getCol()];
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+		// check right
+		if (s.getCol() != maze.contents[0].length-1) {
+			temp = maze.contents[s.getRow()][s.getCol() + 1];
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+		// check left
+		if (s.getCol() != 0) {
+			temp = maze.contents[s.getRow()][s.getCol() - 1];
+			if (!temp.isVisited() && !temp.getIsWall()) {
+				neighbors.add(temp);
+			}
+		}
+		//System.out.println("found " + neighbors.size() + " neighbors");
+		return neighbors;
 	}
 
 }
